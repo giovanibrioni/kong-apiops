@@ -17,4 +17,4 @@ jobs:
       - name: Validate Kong declarative configuration
         run: deck validate
       - name: Deploy declarative config
-        run: deck sync
+        run: deck sync --kong-addr "http://localhost/admin-api"
