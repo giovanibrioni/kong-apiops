@@ -18,5 +18,3 @@ jobs:
         run: deck validate
       - name: Deploy declarative config
         run: deck sync
-      - name: Publish Spec to Dev Portal
-        run: cd ./openapi && http --check-status --ignore-stdin PUT :8001/default/files/specs/orders.yaml contents=@orders.yaml
