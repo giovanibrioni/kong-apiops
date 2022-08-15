@@ -1,10 +1,5 @@
 # Automating the Dev Pipeline to Rapidly Design, Publish, and Consume APIs with Kong
 
-> This project assumes you are running in the [Kong Learning Lab
-environment](https://education.konghq.com/courses/course-v1:kong+KGLL-107+Perpetual/course/).
-Please reach out to your Kong Account Representative if you would like to access
-the course material.
-
 This repository provides a template for creating your own end-to-end [APIOps
 workflow](https://konghq.com/blog/what-is-apiops) leveraging the [Kong API
 Gateway](https://konghq.com/kong/), the world's most popular API gateway.
@@ -14,7 +9,6 @@ Following this workshop, you will:
   specification file into an equivalent Kong Gateway configuration format.
 - Apply the configuration to the Gateway using Kong's declarative configuration
     tool [`decK`](https://docs.konghq.com/deck/overview/)
-- Update the Developer Portal documentation using a single API call
 
 Here is a diagram containing the full workflow:
 
@@ -41,7 +35,7 @@ file](assets/images/generate_config.png)
 To generate a declarative configuration, run:
 
 ```sh
-inso generate config ./openapi/orders.yaml --type declarative -o kong.yaml
+inso generate config ./openapi/your-file.yaml --type declarative -o kong.yaml
 ```
 
 Feel free to inspect the `kong.yaml` file to see what the underlying
@@ -88,35 +82,6 @@ deck sync
 With the configuration successfully applied, you should see the changes take
 place immediately. Try sending a request to any available routes for
 verification.
-
-### 4. Updating the documentation
-
-With the runtime configuration in place, now it's time to update the API
-documentation. This ensures that any consumer of our API has readily available,
-up-to-date documentation.
-
-To update the developer portal documentation for our service, run the following
-command:
-
-```sh
-curl -XPUT localhost:8001/default/files/specs/httpbin.yaml --data contents=@openapi/orders.yaml
-```
-
-> The command above assumes you are updating the "default" workspace (noted by
-> the `/default` URL prefix) with Kong running locally (noted by
-> `localhost:8001`). You may need to update the command above to match your
-> environment if you are running in a different environment.
-
-In this example, we updated a single API in the Kong Developer Portal. While
-this works for this use case, we could also have used the [`portal`
-CLI](https://docs.konghq.com/enterprise/latest/developer-portal/helpers/cli/) to
-update the entire developer documentation at once. If you or your team prefer
-following a "GitOps" or "DocOps"-based workflow, the [`portal`
-CLI](https://docs.konghq.com/enterprise/latest/developer-portal/helpers/cli/)
-may provide a better alternative for updating your API documentation.
-
-> [Insomnia](https://insomnia.rest/) also has built-in functionality for
-> publishing APIs to your Kong developer portal using a graphical interface.
 
 ## Extras
 
