@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Generate Kong declarative configuration from Spec
-        run: for file in ./openapi/*.yaml; do inso generate config "$file" --type declarative -o /tmp/import/${file##*/}; done;
+        run: rm -rf /tmp/import; for file in ./openapi/*.yaml; do inso generate config "$file" --type declarative -o /tmp/import/${file##*/}; done;
       - name: Validate Kong declarative configuration
         run: deck validate -s /tmp/import
       - name: Deploy declarative config
