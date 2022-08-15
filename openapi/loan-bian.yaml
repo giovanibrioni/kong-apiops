@@ -4,10 +4,8 @@ info:
   description: This service domain handles the fulfillment of a general loan product.
     This includes the initial set-up of the loan facility and the completion of scheduled
     and ad-hoc product processing tasks
-  version: "1.0"
+  version: 10.0.0
 servers:
-- url: https://virtserver.swaggerhub.com/giovanibrioni/LoanBIAN/1.0
-  description: SwaggerHub API Auto Mocking
 - url: https://virtserver.swaggerhub.com/BIAN-3/Loan/10.0.0
   description: SwaggerHub API Auto Mocking
 paths:
@@ -18,6 +16,7 @@ paths:
       summary: InCR Initiate a loan
       description: InCR Initiate a loan
       operationId: Initiate
+      parameters: []
       requestBody:
         $ref: '#/components/requestBodies/InitiateLoanFacilityRequest'
       responses:
