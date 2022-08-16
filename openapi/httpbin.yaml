@@ -1,0 +1,901 @@
+openapi: 3.0.1
+info:
+  title: httpbin
+  description: "An unofficial OpenAPI definition for [httpbin.org](https://httpbin.org)."
+  version: 1.0.0
+externalDocs:
+  url: http://httpbin.org/legacy
+servers:
+- url: http://httpbin-service.default.svc.cluster.local
+tags:
+- name: Auth
+  description: Operations for testing various authentication types
+- name: HTTP methods
+  description: Operations for testing different HTTP methods
+- name: Status codes
+  description: "Return the specified HTTP status code, or a random status code if\
+    \ more than one are given"
+- name: Request inspection
+  description: Inspect the request data
+- name: Dynamic Data
+  description: Generates random and dynamic data
+- name: Response Formats
+  description: Returns responses in different data formats
+- name: Images
+  description: Returns different image formats
+- name: Response inspection
+  description: Inspect the response data like caching and headers
+paths:
+  /get:
+    get:
+      tags:
+      - HTTP methods
+      summary: |
+        Returns the GET request's data. Accepts any query parameters and any headers.
+      parameters:
+      - name: freeform
+        in: query
+        description: |
+          Enter free-form query parameters in the JSON format `{ "param1": "value1", "param2": "value2", ... }`.
+
+          Note that the parameters will be actually sent as `?param1=value1&param2=value2&...`
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: object
+          additionalProperties: true
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /delete:
+    delete:
+      tags:
+      - HTTP methods
+      summary: |
+        Returns the DELETE request's data. Accepts any query parameters and any headers.
+      parameters:
+      - name: freeform
+        in: query
+        description: |
+          Enter free-form query parameters in the JSON format `{ "param1": "value1", "param2": "value2", ... }`.
+
+          Note that the parameters will be actually sent as `?param1=value1&param2=value2&...`
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: object
+          additionalProperties: true
+      responses:
+        "200":
+          description: OK
+  /post:
+    post:
+      tags:
+      - HTTP methods
+      summary: Returns the POSTed data
+      parameters:
+      - name: freeform
+        in: query
+        description: |
+          Enter free-form query parameters in the JSON format `{ "param1": "value1", "param2": "value2", ... }`.
+
+          Note that the parameters will be actually sent as `?param1=value1&param2=value2&...`
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: object
+          additionalProperties: true
+      requestBody:
+        description: Data provided in the request body will be returned in the response.
+        content:
+          application/json:
+            schema: {}
+            example:
+              message: "Hello, world!"
+          application/vnd+json:
+            schema: {}
+            examples:
+              pizzaOrder:
+                summary: Pizza order data
+                description: Longer description ...
+                value:
+                  custname: Alice
+                  custtel: +1-202-555-0100
+                  custemail: alice@wonderland.net
+                  size: medium
+                  topping:
+                  - cheese
+                  - mushroom
+                  delivery: 19:00
+                  comments: Ring the door bell three times
+              simpleObject:
+                summary: sample object
+                value:
+                  foo: bar
+          application/xml:
+            schema:
+              type: object
+            example:
+              message: "Hello, world!"
+          text/plain:
+            schema:
+              type: string
+              example: Hi there
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/post_body'
+            examples:
+              pizzaOrder:
+                summary: Pizza order data
+                description: Longer description ...
+                value:
+                  custname: Alice
+                  custtel: +1-202-555-0100
+                  custemail: alice@wonderland.net
+                  size: medium
+                  topping:
+                  - cheese
+                  - mushroom
+                  delivery: 19:00
+                  comments: Ring the door bell three times
+              simpleObject:
+                summary: sample object
+                value:
+                  foo: bar
+          '*/*':
+            schema: {}
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommonResponse'
+  /ip:
+    get:
+      tags:
+      - Request inspection
+      summary: Returns Origin IP.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+              examples:
+                oneIp:
+                  description: Example of a single IP
+                  value:
+                    origin: 10.100.10.10
+                multipleIps:
+                  description: Example of multiple IPs
+                  value:
+                    origin: "10.100.10.10, 10.100.20.254, 52.91.14.13"
+  /user-agent:
+    get:
+      tags:
+      - Request inspection
+      summary: Returns the user agent.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_1'
+  /headers:
+    get:
+      tags:
+      - Request inspection
+      summary: Returns the request headers.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_2'
+  /anything:
+    summary: "Returns request data, including method used."
+    get:
+      tags:
+      - Anything
+      responses:
+        "200":
+          description: Anything passed in request
+          content:
+            application/json:
+              schema:
+                type: object
+    put:
+      tags:
+      - Anything
+      responses:
+        "200":
+          description: Anything passed in request
+          content:
+            application/json:
+              schema:
+                type: object
+    post:
+      tags:
+      - Anything
+      responses:
+        "200":
+          description: Anything passed in request
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      tags:
+      - Anything
+      responses:
+        "200":
+          description: Anything passed in request
+          content:
+            application/json:
+              schema:
+                type: object
+    patch:
+      tags:
+      - Anything
+      responses:
+        "200":
+          description: Anything passed in request
+          content:
+            application/json:
+              schema:
+                type: object
+  /delay/{n}:
+    get:
+      tags:
+      - Dynamic Data
+      summary: "Delays responding for min(n, 10) seconds."
+      parameters:
+      - name: "n"
+        in: path
+        description: "Response delay, in seconds."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          maximum: 10
+          minimum: 0
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: {}
+  /basic-auth/{user}/{password}:
+    get:
+      tags:
+      - Auth
+      summary: Challenges HTTPBasic Auth.
+      parameters:
+      - name: user
+        in: path
+        description: Username. Use the same username in the path AND for authorization.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: password
+        in: path
+        description: Password. Use the same password in the path AND for authorization.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "401":
+          description: Unauthorized (The username and password used for Basic auth
+            do not match those in the URL path.)
+          headers:
+            Www-Authenticate:
+              style: simple
+              explode: false
+              schema:
+                type: string
+                example: Basic realm="Fake Realm"
+      security:
+      - basicAuth: []
+  /hidden-basic-auth/{user}/{password}:
+    get:
+      tags:
+      - Auth
+      summary: Hidden Basic authentication
+      description: Returns 404 Not Found unless the request is authenticated.
+      parameters:
+      - name: user
+        in: path
+        description: Username. Use the same username in the path AND for authorization.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      - name: password
+        in: path
+        description: Password. Use the same password in the path AND for authorization.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200_3'
+        "404":
+          description: Unautorized (the username and password used for Basic auth
+            do not match those in the URL path.)
+      security:
+      - basicAuth: []
+  /status/{statusCode}:
+    summary: "Returns the specified HTTP status code, or a random status code if more\
+      \ than one are given"
+    get:
+      tags:
+      - Status codes
+      parameters:
+      - name: statusCode
+        in: path
+        description: "The status code to return, or a weighted list of statuses to\
+          \ pick from, such as `200:4,500:0.3,418`."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minItems: 1
+          type: array
+          example:
+          - 200:5
+          - 500:0.3
+          - 418
+          items:
+            description: "HTTP status code. May include optional weight, e.g. `200:0.9`"
+            oneOf:
+            - type: string
+            - type: integer
+      responses:
+        default:
+          description: A response with the requested status code.
+    put:
+      tags:
+      - Status codes
+      parameters:
+      - name: statusCode
+        in: path
+        description: "The status code to return, or a weighted list of statuses to\
+          \ pick from, such as `200:4,500:0.3,418`."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minItems: 1
+          type: array
+          example:
+          - 200:5
+          - 500:0.3
+          - 418
+          items:
+            description: "HTTP status code. May include optional weight, e.g. `200:0.9`"
+            oneOf:
+            - type: string
+            - type: integer
+      responses:
+        default:
+          description: A response with the requested status code.
+    post:
+      tags:
+      - Status codes
+      parameters:
+      - name: statusCode
+        in: path
+        description: "The status code to return, or a weighted list of statuses to\
+          \ pick from, such as `200:4,500:0.3,418`."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minItems: 1
+          type: array
+          example:
+          - 200:5
+          - 500:0.3
+          - 418
+          items:
+            description: "HTTP status code. May include optional weight, e.g. `200:0.9`"
+            oneOf:
+            - type: string
+            - type: integer
+      responses:
+        default:
+          description: A response with the requested status code.
+    delete:
+      tags:
+      - Status codes
+      parameters:
+      - name: statusCode
+        in: path
+        description: "The status code to return, or a weighted list of statuses to\
+          \ pick from, such as `200:4,500:0.3,418`."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minItems: 1
+          type: array
+          example:
+          - 200:5
+          - 500:0.3
+          - 418
+          items:
+            description: "HTTP status code. May include optional weight, e.g. `200:0.9`"
+            oneOf:
+            - type: string
+            - type: integer
+      responses:
+        default:
+          description: A response with the requested status code.
+    patch:
+      tags:
+      - Status codes
+      parameters:
+      - name: statusCode
+        in: path
+        description: "The status code to return, or a weighted list of statuses to\
+          \ pick from, such as `200:4,500:0.3,418`."
+        required: true
+        style: simple
+        explode: false
+        schema:
+          minItems: 1
+          type: array
+          example:
+          - 200:5
+          - 500:0.3
+          - 418
+          items:
+            description: "HTTP status code. May include optional weight, e.g. `200:0.9`"
+            oneOf:
+            - type: string
+            - type: integer
+      responses:
+        default:
+          description: A response with the requested status code.
+  /xml:
+    get:
+      tags:
+      - Response Formats
+      summary: Returns some XML.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/xml: {}
+  /html:
+    get:
+      tags:
+      - Response Formats
+      summary: Returns an HTML page
+      responses:
+        "200":
+          description: OK
+          content:
+            text/html: {}
+  /image/{format}:
+    get:
+      tags:
+      - Images
+      summary: Returns an image with the specified format.
+      parameters:
+      - name: format
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          enum:
+          - png
+          - jpeg
+          - webp
+          - svg
+      responses:
+        "200":
+          description: OK
+          content:
+            image/png, image/jpeg, image/webp:
+              schema:
+                type: string
+                format: binary
+            image/svg+xml: {}
+            image/svg: {}
+  /image:
+    get:
+      tags:
+      - Images
+      summary: Returns an image based on the Accept header.
+      responses:
+        "200":
+          description: OK
+          content:
+            image/png, image/jpeg, image/webp:
+              schema:
+                type: string
+                format: binary
+            image/svg+xml: {}
+            image/svg: {}
+        "406":
+          description: Client did not request a supported media type.
+  /cache:
+    get:
+      tags:
+      - Response inspection
+      summary: "Returns 200 unless an If-Modified-Since or If-None-Match header is\
+        \ provided, when it returns a 304."
+      parameters:
+      - name: If-Modified-Since
+        in: header
+        description: |
+          For testing purposes this header accepts any value. (???) See also https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-Modified-Since
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: "Wed, 21 Oct 2015 07:28:00 GMT"
+      - name: If-None-Match
+        in: header
+        description: |
+          For testing purposes this header accepts any value. (???) See also https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/If-None-Match
+        required: false
+        style: simple
+        explode: false
+        schema:
+          type: string
+        examples:
+          etag:
+            value: '"bfc13a64729c4290ef5b2c2730249c88ca92d82d"'
+          etags:
+            value: "W/\"67ab43\", \"54ed21\", \"7892dd\""
+          asterisk:
+            value: '*'
+      responses:
+        "200":
+          description: Neigher If-Modified-Since nor If-None-Match header is provided
+        "304":
+          description: If-Modified-Since or If-None-Match header is provided
+  /cookies:
+    get:
+      tags:
+      - Cookies
+      summary: Returns cookie data
+      responses:
+        "200":
+          description: OK
+  /cookies/set:
+    get:
+      tags:
+      - Cookies
+      summary: Sets one or more simple cookies
+      parameters:
+      - name: freeform
+        in: query
+        description: |
+          Enter free-form query parameters in the JSON format `{ "param1": "value1", "param2": "value2", ... }`.
+
+          Note that the parameters will be actually sent as `?param1=value1&param2=value2&...`
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: object
+          additionalProperties: true
+      responses:
+        "200":
+          description: OK
+  /cookies/delete:
+    get:
+      tags:
+      - Cookies
+      summary: Delete one or more simple cookies
+      parameters:
+      - name: freeform
+        in: query
+        description: |
+          Enter free-form query parameters in the JSON format `{ "param1": "value1", "param2": "value2", ... }`.
+
+          Note that the parameters will be actually sent as `?param1=value1&param2=value2&...`
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: object
+          additionalProperties: true
+      responses:
+        "200":
+          description: OK
+components:
+  schemas:
+    CommonResponse:
+      required:
+      - args
+      - headers
+      - origin
+      - url
+      type: object
+      properties:
+        args:
+          type: object
+          additionalProperties:
+            type: string
+          description: Query string parameters specified in the request URL.
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+          description: |
+            Headers (standard or custom) used in the request. Some typical headers are:
+              - Accept
+              - Accept-Encoding
+              - Content-Length
+              - Content-Type
+              - Host
+              - Origin
+              - Referred
+              - User-Agent
+        origin:
+          type: string
+          description: The origin IP from which the request was made.
+          example: "10.100.10.10, 10.100.10.44, 52.91.14.13"
+        url:
+          type: string
+          description: The endpoint URL to which the request was made.
+          format: uri
+          example: https://httpbin.org/post
+      description: Response returned by `/get`
+    PostResponse:
+      description: "Response returned by /post, /put, /patch and /delete"
+      allOf:
+      - $ref: '#/components/schemas/CommonResponse'
+      - type: object
+        properties:
+          data: {}
+          files: {}
+          form:
+            type: object
+            additionalProperties:
+              type: string
+            description: |
+              Form parameters specified in "application/x-www-form-urlencoded" and `multipart/form-data` requests.
+          json:
+            description: |
+              JSON value sent in the payload. Can be object, array, string, number, boolean or `null`.
+            nullable: true
+    TimestampWrapper:
+      required:
+      - timestamp
+      type: object
+      properties:
+        timestamp:
+          $ref: '#/components/schemas/Timestamp'
+    Timestamp:
+      required:
+      - epoch
+      - iso8601
+      - rfc2822
+      - rfc3339
+      - slang_date
+      - slang_time
+      type: object
+      properties:
+        epoch:
+          type: number
+          format: double
+          example: 1498229228.0671656
+        slang_date:
+          type: string
+          example: today
+        slang_time:
+          type: string
+          example: now
+        iso8601:
+          type: string
+          example: 2017-06-23T14:47:08.067166Z
+        rfc2822:
+          type: string
+          example: "Fri, 23 Jun 2017 14:47:08 GMT"
+        rfc3339:
+          type: string
+          example: 2017-06-23T14:47:08.06Z
+      example:
+        epoch: 1.48518355084644E9
+        slang_date: Jan 23
+        slang_time: 4 months ago
+        iso8601: 2017-01-23T14:59:10.846440Z
+        rfc2822: "Mon, 23 Jan 2017 14:59:10 GMT"
+        rfc3339: 2017-01-23T14:59:10.84Z
+    post_body:
+      type: object
+      properties:
+        custname:
+          type: string
+          description: Customer name
+          example: Alice
+        custtel:
+          type: string
+          description: Customer phone number
+          example: +1-202-555-0100
+        custemail:
+          type: string
+          description: Customer email address
+          format: email
+          example: alice@wonderland.net
+        size:
+          type: string
+          description: Pizza size
+          enum:
+          - small
+          - medium
+          - large
+        topping:
+          type: array
+          description: Pizza toppings
+          items:
+            type: string
+            enum:
+            - bacon
+            - cheese
+            - mushroom
+            - onion
+        delivery:
+          type: string
+          description: Delivery time
+          example: 13:30
+        comments:
+          type: string
+          description: Comments
+          example: ASAP
+    inline_response_200:
+      required:
+      - origin
+      type: object
+      properties:
+        origin:
+          type: string
+          description: |
+            The IP address, or a comma-separated list of IP addresses. For example, "10.100.10.10, 10.100.20.254, 52.91.14.13"'
+          example: 10.100.10.10
+    inline_response_200_1:
+      required:
+      - user-agent
+      type: object
+      properties:
+        user-agent:
+          type: string
+          example: curl/7.37.0
+    inline_response_200_2:
+      required:
+      - headers
+      type: object
+      properties:
+        headers:
+          type: object
+          additionalProperties:
+            type: string
+    inline_response_200_3:
+      type: object
+      properties:
+        authenticated:
+          type: boolean
+          example: true
+        user:
+          type: string
+          description: The user name specified in the request.
+  responses:
+    "200BasicAuth":
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/inline_response_200_3'
+    Image:
+      description: OK
+      content:
+        image/png, image/jpeg, image/webp:
+          schema:
+            type: string
+            format: binary
+        image/svg+xml: {}
+        image/svg: {}
+    TimestampResponse:
+      description: OK
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TimestampWrapper'
+  parameters:
+    user:
+      name: user
+      in: path
+      description: Username. Use the same username in the path AND for authorization.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    password:
+      name: password
+      in: path
+      description: Password. Use the same password in the path AND for authorization.
+      required: true
+      style: simple
+      explode: false
+      schema:
+        type: string
+    freeFormQuery:
+      name: freeform
+      in: query
+      description: |
+        Enter free-form query parameters in the JSON format `{ "param1": "value1", "param2": "value2", ... }`.
+
+        Note that the parameters will be actually sent as `?param1=value1&param2=value2&...`
+      required: false
+      style: form
+      explode: true
+      schema:
+        type: object
+        additionalProperties: true
+  examples:
+    headers:
+      value:
+        Accept: '*/*'
+        Connection: close
+        Host: httpbin.org
+        User-Agent: curl/7.37.0
+    Now:
+      value:
+        epoch: 1.4982292280671656E9
+        slang_date: today
+        slang_time: now
+        iso8601: 2017-06-23T14:47:08.067166Z
+        rfc2822: "Fri, 23 Jun 2017 14:47:08 GMT"
+        rfc3339: 2017-06-23T14:47:08.06Z
+    DateInPast:
+      description: Example of a date in the past
+      value:
+        epoch: "1485183550.84644,"
+        slang_date": Jan 23
+        slang_time": 4 months ago
+        iso8601: 2017-01-23T14:59:10.846440Z
+        rfc2822: "Mon, 23 Jan 2017 14:59:10 GMT"
+        rfc3339: 2017-01-23T14:59:10.84Z
+  securitySchemes:
+    basicAuth:
+      type: http
+      description: Use the same username and password as you will provide in path
+        parameters.
+      scheme: basic
