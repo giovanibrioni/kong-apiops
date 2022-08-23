@@ -17,4 +17,4 @@ jobs:
       - name: Validate Kong declarative configuration
         run: deck validate -s /tmp/import
       - name: Deploy declarative config
-        run: for file in /tmp/import/*; do deck sync --kong-addr "http://localhost/admin-api" -s /tmp/import/${file##*/} --select-tag ${file##*/}; done;
+        run: for file in /tmp/import/*; do deck sync --kong-addr $KONG_ADMIN -s /tmp/import/${file##*/} --select-tag ${file##*/}; done;
