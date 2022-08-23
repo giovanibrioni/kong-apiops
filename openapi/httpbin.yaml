@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: httpbin
   description: "An unofficial OpenAPI definition for [httpbin.org](https://httpbin.org)."
-  version: 1.0.0
+  version: 1.0.0-oas3
 externalDocs:
   url: http://httpbin.org/legacy
 servers:
@@ -724,20 +724,20 @@ components:
           example: now
         iso8601:
           type: string
-          example: 2017-06-23T14:47:08.067166Z
+          example: 2017-06-23T14:47:08.067Z
         rfc2822:
           type: string
           example: "Fri, 23 Jun 2017 14:47:08 GMT"
         rfc3339:
           type: string
-          example: 2017-06-23T14:47:08.06Z
+          example: 2017-06-23T14:47:08.060Z
       example:
         epoch: 1.48518355084644E9
         slang_date: Jan 23
         slang_time: 4 months ago
-        iso8601: 2017-01-23T14:59:10.846440Z
+        iso8601: 2017-01-23T14:59:10.846Z
         rfc2822: "Mon, 23 Jan 2017 14:59:10 GMT"
-        rfc3339: 2017-01-23T14:59:10.84Z
+        rfc3339: 2017-01-23T14:59:10.840Z
     post_body:
       type: object
       properties:
@@ -881,18 +881,18 @@ components:
         epoch: 1.4982292280671656E9
         slang_date: today
         slang_time: now
-        iso8601: 2017-06-23T14:47:08.067166Z
+        iso8601: 2017-06-23T14:47:08.067Z
         rfc2822: "Fri, 23 Jun 2017 14:47:08 GMT"
-        rfc3339: 2017-06-23T14:47:08.06Z
+        rfc3339: 2017-06-23T14:47:08.060Z
     DateInPast:
       description: Example of a date in the past
       value:
         epoch: "1485183550.84644,"
         slang_date": Jan 23
         slang_time": 4 months ago
-        iso8601: 2017-01-23T14:59:10.846440Z
+        iso8601: 2017-01-23T14:59:10.846Z
         rfc2822: "Mon, 23 Jan 2017 14:59:10 GMT"
-        rfc3339: 2017-01-23T14:59:10.84Z
+        rfc3339: 2017-01-23T14:59:10.840Z
   securitySchemes:
     basicAuth:
       type: http
