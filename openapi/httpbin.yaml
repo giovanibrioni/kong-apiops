@@ -6,7 +6,7 @@ info:
 externalDocs:
   url: http://httpbin.org/legacy
 servers:
-- url: http://httpbin-service.default.svc.cluster.local
+- url: http://httpbin.org
 tags:
 - name: Auth
   description: Operations for testing various authentication types
