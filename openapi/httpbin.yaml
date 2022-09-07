@@ -2,7 +2,7 @@ openapi: 3.0.1
 info:
   title: httpbin
   description: "An unofficial OpenAPI definition for [httpbin.org](https://httpbin.org)."
-  version: 1.0.0-oas3
+  version: 1.0.1
 externalDocs:
   url: http://httpbin.org/legacy
 servers:
@@ -52,6 +52,10 @@ paths:
             application/json:
               schema:
                 type: object
+      x-kong-route-defaults:
+        headers:
+          x-custom:
+          - batata
   /delete:
     delete:
       tags:
@@ -899,3 +903,6 @@ components:
       description: Use the same username and password as you will provide in path
         parameters.
       scheme: basic
+x-kong-route-defaults:
+  hosts:
+  - httpbin.pocs.dev.br
